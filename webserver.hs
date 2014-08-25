@@ -18,14 +18,14 @@ type OutputGenerator = String -> [(String, String)] -> IO (String)
 type ServerOperation = Socket -> [String] -> IO()
 
 paths = M.fromList $
-    [
-        ("./status", ("playerctl",  ["status"])),
-        ("./pause", ("playerctl",  ["play-pause"])),
-        ("./next", ("playerctl",  ["next"])),
-        ("./previous", ("playerctl",  ["previous"])),
-        ("./title", ("playerctl", ["metadata", "title"])),
-        ("./artist", ("playerctl", ["metadata", "artist"]))
-    ]
+    [(x, ("playerctl", xs)) | (x, xs) <-[
+        ("./status", ["status"]),
+        ("./pause", ["play-pause"]),
+        ("./next", ["next"]),
+        ("./previous", ["previous"]),
+        ("./title", ["metadata", "title"]),
+        ("./artist", ["metadata", "artist"])
+    ]]
  
 main = withSocketsDo $ do
     putStrLn "listening"
